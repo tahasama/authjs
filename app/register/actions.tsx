@@ -58,3 +58,19 @@ export const addUser = async ({
   redirect("/"); // Redirect to home page on success
   return { success: true };
 };
+
+export async function getUsers() {
+  const result = await query("SELECT *FROM users");
+
+  if (!result) {
+    return {
+      message: "Failed to fetch users",
+      users: [],
+    };
+  }
+
+  return {
+    users: result.rows,
+    message: "",
+  };
+}

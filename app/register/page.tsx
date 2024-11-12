@@ -25,6 +25,7 @@ import { addUser } from "./actions";
 import { formSchema } from "@/lib/types";
 
 const Register = () => {
+    
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
