@@ -5,7 +5,6 @@ import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
@@ -22,27 +21,8 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-
-const matchPsswrdSchema = z
-  .object({
-    psswrd: z.string().min(5, "your password must be at least 6 caratcters"),
-    confirmPsswrd: z.string(),
-  })
-  .superRefine((val, ctx) => {
-    if (val.psswrd !== val.confirmPsswrd) {
-      ctx.addIssue({
-        code: z.ZodIssueCode.custom,
-        path: ["confirmPsswrd"],
-        message: "your passwords do not match, please try again",
-      });
-    }
-  });
-
-const formSchema = z
-  .object({
-    email: z.string().email("please add a valid email"),
-  })
-  .and(matchPsswrdSchema);
+import { addUser } from "./actions";
+import { formSchema } from "@/lib/types";
 
 const Register = () => {
   const form = useForm<z.infer<typeof formSchema>>({
@@ -54,19 +34,25 @@ const Register = () => {
     },
   });
 
-  const hansleSubmit = async (data: z.infer<typeof formSchema>) => {};
+  const handleSubmit = async (data: z.infer<typeof formSchema>) => {
+    await addUser({
+      email: data.email,
+      psswrd: data.psswrd,
+      confirmPsswrd: data.confirmPsswrd,
+    });
+  };
 
   return (
     <main className="grid place-content-center min-h-screen">
       <Card className="min-w-80">
         <CardHeader>
           <CardTitle>Register</CardTitle>
-          <CardDescription>create your new account</CardDescription>
+          <CardDescription>Create your new account</CardDescription>
         </CardHeader>
         <CardContent>
           <Form {...form}>
             <form
-              onSubmit={form.handleSubmit(hansleSubmit)}
+              onSubmit={form.handleSubmit(handleSubmit)}
               className="flex flex-col gap-3"
             >
               <FormField
@@ -76,12 +62,12 @@ const Register = () => {
                   <FormItem>
                     <FormLabel>Email</FormLabel>
                     <FormControl>
-                      <Input {...field} />
+                      <Input {...field} type="email" />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
                 )}
-              ></FormField>
+              />
               <FormField
                 control={form.control}
                 name="psswrd"
@@ -89,12 +75,12 @@ const Register = () => {
                   <FormItem>
                     <FormLabel>Password</FormLabel>
                     <FormControl>
-                      <Input {...field} />
+                      <Input {...field} type="password" />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
                 )}
-              ></FormField>
+              />
               <FormField
                 control={form.control}
                 name="confirmPsswrd"
@@ -102,12 +88,12 @@ const Register = () => {
                   <FormItem>
                     <FormLabel>Confirm Password</FormLabel>
                     <FormControl>
-                      <Input {...field} />
+                      <Input {...field} type="password" />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
                 )}
-              ></FormField>
+              />
               <Button type="submit" className="mt-2">
                 Register
               </Button>
