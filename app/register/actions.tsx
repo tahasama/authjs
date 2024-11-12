@@ -4,6 +4,7 @@ import { query } from "@/lib/db";
 import { redirect } from "next/navigation";
 import { saltAndHashPassword } from "@/lib/utils";
 import { formSchema } from "@/lib/types";
+import { error } from "console";
 
 // Function to salt and hash password
 
@@ -25,36 +26,45 @@ export const addUser = async ({
 
   if (!parseResult.success) {
     // return { error: "Validation failed. Please check your inputs." };
-    return { error: parseResult.error.issues[0].message };
+    return { error: true, message: parseResult.error.issues[0].message };
   }
 
   // Validate the email uniqueness first
+
   const existingUser = await query("SELECT * FROM users WHERE email = $1", [
     email,
   ]);
 
   if (existingUser.rows.length > 0) {
-    return { error: "This email is already registered." };
+    return { error: true, message: "This email is already registered." };
   }
 
   // Check if passwords match
-  if (psswrd !== confirmPsswrd) {
-    return { error: "Passwords do not match." };
-  }
+  // if (psswrd !== "confirmPsswrd") {
+  //   return { error: "Passwords do not match." };
+  // }
 
   // Generate the password hash
   const pwHash = saltAndHashPassword(psswrd);
 
   // Insert the new user into the database
+
   const result = await query(
     "INSERT INTO users (email, passwordhash) VALUES ($1, $2) RETURNING *",
     [email, pwHash]
   );
+  console.log("🚀 ~ result:", result);
+
+  // if (!result.rowCount) {
+  //   return { error: true, message: "Email already exists" };
+  // }
 
   if (result.rowCount === 0) {
-    return { error: "Failed to add user. Please try again later." };
+    return {
+      error: true,
+      message: "Failed to add user. Please try again later.",
+    };
   }
-
   redirect("/"); // Redirect to home page on success
   return { success: true };
 };

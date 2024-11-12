@@ -18,17 +18,17 @@ export async function testDatabaseConnection() {
 // Call this function to check the connection on server startup or in a specific route
 testDatabaseConnection();
 
-export async function createUserTable() {
-  await pool.query(`
-    CREATE TABLE users (
-      id SERIAL PRIMARY KEY,
-      email VARCHAR(255) UNIQUE NOT NULL,
-      passwordHash TEXT NOT NULL
-    );
-  `);
-}
+// export async function createUserTable() {
+//   await pool.query(`
+//     CREATE TABLE users (
+//       id SERIAL PRIMARY KEY,
+//       email VARCHAR(255) UNIQUE NOT NULL,
+//       passwordHash TEXT NOT NULL
+//     );
+//   `);
+// }
 
-createUserTable();
+// createUserTable();
 
 
 

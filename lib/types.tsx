@@ -3,7 +3,9 @@ import { z } from "zod";
 const matchPsswrdSchema = z
   .object({
     psswrd: z.string().min(6, "Your password must be at least 6 characters."),
-    confirmPsswrd: z.string(),
+    confirmPsswrd: z
+      .string()
+      .min(6, "Your password must be at least 6 characters."),
   })
   .superRefine((val, ctx) => {
     if (val.psswrd !== val.confirmPsswrd) {
@@ -17,6 +19,6 @@ const matchPsswrdSchema = z
 
 export const formSchema = z
   .object({
-    email: z.string().email("Please add a valid email."),
+    email: z.string().email(),
   })
   .and(matchPsswrdSchema);
