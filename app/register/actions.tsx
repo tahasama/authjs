@@ -3,8 +3,7 @@
 import { query } from "@/lib/db";
 import { redirect } from "next/navigation";
 import { saltAndHashPassword } from "@/lib/utils";
-import { formSchema } from "@/lib/types";
-import { error } from "console";
+import { formSchema } from "@/lib/zod";
 
 // Function to salt and hash password
 

@@ -22,8 +22,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { addUser } from "./actions";
-import { formSchema } from "@/lib/types";
-import { error } from "console";
+import { formSchema } from "@/lib/zod";
 import Link from "next/link";
 
 const Register = () => {
@@ -37,16 +36,15 @@ const Register = () => {
   });
 
   const handleSubmit = async (data: z.infer<typeof formSchema>) => {
-    const { error, message } = await addUser({
+    const { message } = await addUser({
       email: data.email,
       psswrd: data.psswrd,
       confirmPsswrd: data.confirmPsswrd,
     });
 
-    error &&
-      form.setError(message.includes("password") ? "confirmPsswrd" : "email", {
-        message: message,
-      });
+    form.setError(message?.includes("password") ? "confirmPsswrd" : "email", {
+      message: message,
+    });
   };
 
   return (
@@ -56,7 +54,7 @@ const Register = () => {
           <CardHeader>
             <CardTitle>User Created</CardTitle>
             <CardDescription>
-              if you haven't been redirected automatically click{" "}
+              {` if you haven't been redirected automatically click`}
             </CardDescription>
           </CardHeader>
           <CardContent className="grid place-content-center">
