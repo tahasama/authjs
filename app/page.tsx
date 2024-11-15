@@ -1,9 +1,11 @@
 import Image from "next/image";
-import { getUsers } from "./register/actions";
 import { UsersProps } from "@/lib/types";
+// import { getUsers } from "./actions/authActions";
+import { auth } from "@/auth";
+import UserData from "@/components/UserData";
 
 export default async function Home() {
-  const { users }: UsersProps = await getUsers(); // This function will be called in the server environment
+  // const { users }: UsersProps = await getUsers(); // This function will be called in the server environment
 
   return (
     <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
@@ -11,9 +13,7 @@ export default async function Home() {
         <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
           <li className="mb-2">Taha tries auth.</li>
           <li className="mb-2">uses auth.js.</li>
-          {users.length !== 0 && (
-            <li className="mb-2">{users[0].email} is in the building</li>
-          )}
+          {/* <UserData /> */}
         </ol>
       </main>
       <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">

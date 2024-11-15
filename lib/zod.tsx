@@ -22,3 +22,14 @@ export const formSchema = z
     email: z.string().email(),
   })
   .and(matchPsswrdSchema);
+
+export const signInSchema = z.object({
+  email: z
+    .string({ required_error: "Email is required" })
+    .min(1, "Email is required")
+    .email("Invalid email"),
+  psswrd: z
+    .string({ required_error: "Password is required" })
+    .min(1, "Password is required")
+    .min(6, "Password must atleasr 6 characters"),
+});

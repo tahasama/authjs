@@ -21,9 +21,9 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { addUser } from "./actions";
 import { formSchema } from "@/lib/zod";
 import Link from "next/link";
+import { addUser } from "../actions/authActions";
 
 const Register = () => {
   const form = useForm<z.infer<typeof formSchema>>({
@@ -42,7 +42,7 @@ const Register = () => {
       confirmPsswrd: data.confirmPsswrd,
     });
 
-    form.setError(message?.includes("password") ? "confirmPsswrd" : "email", {
+    form.setError(message?.includes("psswrd") ? "confirmPsswrd" : "email", {
       message: message,
     });
   };
@@ -59,9 +59,9 @@ const Register = () => {
           </CardHeader>
           <CardContent className="grid place-content-center">
             <Button>
-              <Link href={"/"}>Go to home page</Link>{" "}
+              <Link href={"/"}>Go to home page</Link>
             </Button>
-          </CardContent>{" "}
+          </CardContent>
         </Card>
       ) : (
         <Card className="min-w-80">
@@ -94,9 +94,9 @@ const Register = () => {
                     name="psswrd"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Password</FormLabel>
+                        <FormLabel>psswrd</FormLabel>
                         <FormControl>
-                          <Input {...field} type="password" />
+                          <Input {...field} type="psswrd" />
                         </FormControl>
                         <FormMessage className="" />
                       </FormItem>
@@ -107,9 +107,9 @@ const Register = () => {
                     name="confirmPsswrd"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Confirm Password</FormLabel>
+                        <FormLabel>Confirm psswrd</FormLabel>
                         <FormControl>
-                          <Input {...field} type="password" />
+                          <Input {...field} type="psswrd" />
                         </FormControl>
                         <FormMessage className="" />
                       </FormItem>
