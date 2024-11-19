@@ -3,7 +3,7 @@
 import { signIn } from "@/auth";
 import { query } from "@/lib/db";
 import { redirect } from "next/navigation";
-import { loginSchema, registerSchema } from "@/lib/zod";
+import { chgPasswordSchema, loginSchema, registerSchema } from "@/lib/zod";
 import { hashResult, saltAndHashPassword } from "@/lib/utils";
 import { AuthError } from "@/lib/types";
 
@@ -54,12 +54,55 @@ export const addUser = async ({
       message: "Failed to add user. Please try again later.",
     };
   }
-  redirect("/"); // Redirect to home page on success
-  //   return { success: true };
+  await signIn("credentials", {
+    email,
+    password,
+    redirect: false,
+  });
+
+  return { success: true };
 };
 
 export const loginWithGitHub = async () => {
   await signIn("github");
+};
+
+export const changePassword = async ({
+  currentPassword,
+  password,
+  cpassword,
+  email,
+}: {
+  currentPassword: string;
+  password: string;
+  cpassword: string;
+  email: string;
+}) => {
+  // Server-side validation using zod
+  const parseResult = await chgPasswordSchema.safeParseAsync({
+    currentPassword,
+    password,
+    cpassword,
+  });
+
+  if (!parseResult.success) {
+    // return { error: "Validation failed. Please check your inputs." };
+    return { error: true, message: parseResult.error.issues[0].message };
+  }
+
+  const pwHash = saltAndHashPassword(password);
+
+  const { message, user } = await getUserFromDb(email, currentPassword);
+  //   console.log("🚀 ~ xxxk:", xxx);
+  if (!user) {
+    return { user: null, message: "your current password is wrong" };
+  }
+
+  const result = await query(
+    "UPDATE users SET psswrdhash = $1 WHERE email = $2",
+    [pwHash, email]
+  );
+  return { user: user, message: "" };
 };
 
 export async function getUsers() {

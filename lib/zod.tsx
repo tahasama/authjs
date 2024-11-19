@@ -27,6 +27,12 @@ export const passwordsSchema = z
     }
   });
 
+export const chgPasswordSchema = z
+  .object({
+    currentPassword: password,
+  })
+  .and(passwordsSchema);
+
 export const registerSchema = z
   .object({
     email,

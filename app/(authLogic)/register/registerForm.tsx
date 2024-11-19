@@ -2,17 +2,13 @@
 import { addUser } from "@/app/actions/authActions";
 import { registerSchema } from "@/lib/zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { getSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
 const RegisterForm = () => {
-  //   const {
-  //     handleSubmit,
-  //     register,
-  //     formState: { errors },
-  //   } = useForm<z.infer<typeof formSchema>>({
-  //     resolver: zodResolver(formSchema),
-  //   });
+  const router = useRouter();
 
   const {
     handleSubmit,
@@ -29,7 +25,11 @@ const RegisterForm = () => {
       password: data.password,
       cpassword: data.cpassword,
     });
-
+    console.log("🚀 ~ onSubmit ~ message:", message);
+    if (!message) {
+      await getSession();
+      router.back();
+    }
     setError(message?.includes("password") ? "password" : "email", {
       message: message,
     });
