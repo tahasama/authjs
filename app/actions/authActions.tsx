@@ -2,7 +2,6 @@
 
 import { signIn } from "@/auth";
 import { query } from "@/lib/db";
-import { redirect } from "next/navigation";
 import { chgPasswordSchema, loginSchema, registerSchema } from "@/lib/zod";
 import { hashResult, saltAndHashPassword } from "@/lib/utils";
 import { AuthError } from "@/lib/types";
@@ -92,8 +91,7 @@ export const changePassword = async ({
 
   const pwHash = saltAndHashPassword(password);
 
-  const { message, user } = await getUserFromDb(email, currentPassword);
-  //   console.log("🚀 ~ xxxk:", xxx);
+  const { user } = await getUserFromDb(email, currentPassword);
   if (!user) {
     return { user: null, message: "your current password is wrong" };
   }
@@ -102,6 +100,11 @@ export const changePassword = async ({
     "UPDATE users SET psswrdhash = $1 WHERE email = $2",
     [pwHash, email]
   );
+
+  if (result.rowCount === 0) {
+    return { user: null, message: "Something went wrong, please try again" };
+  }
+
   return { user: user, message: "" };
 };
 

@@ -8,7 +8,13 @@ const Dashboard = () => {
   return (
     <div>
       {status === "authenticated" ? (
-        <div>{data.user?.email}'s Dashboard</div>
+        <>
+          <h2>
+            {data.user?.email}
+            {`'`}s Dashboard
+          </h2>
+          <Link href="/chngPsswrd">reset password</Link>
+        </>
       ) : (
         <>
           <Link href={"/login"}>Login</Link>

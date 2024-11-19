@@ -1,25 +1,17 @@
 "use client";
-import {
-  changePassword,
-  loginWithCredentials,
-} from "@/app/actions/authActions";
-import { chgPasswordSchema, loginSchema } from "@/lib/zod";
+import { changePassword } from "@/app/actions/authActions";
+import { chgPasswordSchema } from "@/lib/zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { getSession, useSession } from "next-auth/react";
-import { redirect, usePathname, useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import ChangePassword from "./page";
 
 const ChangeForm = () => {
-  const { data, status } = useSession();
+  const { data } = useSession();
   const email = data?.user?.email;
 
   const router = useRouter();
-
-  // const router = useRouter();
-  // const path = usePathname();
-  // console.log("🚀 ~ LoginForm ~ path:", path);
   const {
     handleSubmit,
     register,
@@ -48,10 +40,6 @@ const ChangeForm = () => {
         );
       } else {
         console.log("your password had been succefully updated!");
-        await getSession();
-
-        // router.push("/dashboard");
-        // redirect("/");
         router.back();
       }
     }
@@ -105,7 +93,7 @@ const ChangeForm = () => {
         type="submit"
         className="bg-blue-950 text-center rounded-md p-1.5 mt-1 hover:bg-blue-900/50"
       >
-        Login
+        Update
       </button>
     </form>
   );
