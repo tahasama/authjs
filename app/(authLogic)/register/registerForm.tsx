@@ -1,4 +1,5 @@
 "use client";
+import { addUser } from "@/app/actions/authActions";
 import { registerSchema } from "@/lib/zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -17,13 +18,23 @@ const RegisterForm = () => {
     handleSubmit,
     register,
     formState: { errors },
+    setError,
   } = useForm<z.infer<typeof registerSchema>>({
     resolver: zodResolver(registerSchema),
   });
 
-  const onSubmit = (data: z.infer<typeof registerSchema>) => {
-    console.log("register:", data);
+  const onSubmit = async (data: z.infer<typeof registerSchema>) => {
+    const { message } = await addUser({
+      email: data.email,
+      password: data.password,
+      cpassword: data.cpassword,
+    });
+
+    setError(message?.includes("password") ? "password" : "email", {
+      message: message,
+    });
   };
+
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-3">
       <label htmlFor="email">Email</label>

@@ -1,23 +1,45 @@
 "use client";
+import { loginWithCredentials } from "@/app/actions/authActions";
 import { loginSchema } from "@/lib/zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { AuthError } from "next-auth";
+import { useSession } from "next-auth/react";
+import { redirect, useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
 const LoginForm = () => {
+  const vvv = useSession();
+  console.log("🚀 ~ LoginForm ~ vvv:", vvv);
   const {
     handleSubmit,
     register,
     formState: { errors },
+    setError,
   } = useForm<z.infer<typeof loginSchema>>({
     resolver: zodResolver(loginSchema),
   });
-  const onSubmit = (data: z.infer<typeof loginSchema>) => {
-    console.log("wow", data);
+
+  const onSubmit = async (data: z.infer<typeof loginSchema>) => {
+    const { email, password } = data;
+    const response = await loginWithCredentials({
+      email,
+      password,
+    });
+
+    if (response?.message) {
+      setError(response.message.includes("password") ? "password" : "email", {
+        message: response.message,
+      });
+    }
+    redirect("/");
   };
+
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-3">
+      {/* {errors.root && <p style={{ color: "red" }}>{errors.root.message}</p>} */}
       <label htmlFor="email">Email</label>
+
       <input
         // type="email"
         id="email"

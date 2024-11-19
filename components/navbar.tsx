@@ -1,11 +1,10 @@
 "use client";
-import React from "react";
+import React, { useContext } from "react";
 import { useSession } from "next-auth/react";
 
 const Navbar = () => {
-  //   const session = await auth();
   const { data, status } = useSession();
-  console.log("🚀 ~ Navbar ~ status:", status === "authenticated");
+  console.log("🚀 ~ Navbar ~ data:", data);
 
   return (
     <div
