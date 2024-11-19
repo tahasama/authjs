@@ -1,22 +1,26 @@
 "use client";
-import React, { useContext } from "react";
+import React from "react";
 import { useSession } from "next-auth/react";
+import Logout from "@/app/(authLogic)/Logout";
+// import { auth } from "@/auth";
 
 const Navbar = () => {
   const { data, status } = useSession();
-  console.log("🚀 ~ Navbar ~ data:", data);
 
   return (
     <div
-      className={`p-5 ${
-        status === "authenticated" ? "bg-red-700/50" : "bg-purple-950"
+      className={`flex p-5 justify-around ${
+        status === "authenticated" ? "bg-purple-950" : "bg-cyan-800/50"
       }`}
     >
-      {status === "authenticated"
-        ? data?.user?.email
-        : status === "loading"
-        ? "loading"
-        : "Not user yet!"}
+      <div>
+        {status === "authenticated"
+          ? data?.user?.email
+          : status === "loading"
+          ? "loading"
+          : "Not user yet!"}
+      </div>
+      {status === "authenticated" && <Logout />}
     </div>
   );
 };

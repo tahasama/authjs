@@ -1,13 +1,11 @@
 "use server";
 
 import { signIn } from "@/auth";
-import { z } from "zod";
-import crypto from "crypto";
 import { query } from "@/lib/db";
 import { redirect } from "next/navigation";
 import { loginSchema, registerSchema } from "@/lib/zod";
 import { hashResult, saltAndHashPassword } from "@/lib/utils";
-import { AuthError } from "next-auth";
+import { AuthError } from "@/lib/types";
 
 export const addUser = async ({
   email,
@@ -18,7 +16,6 @@ export const addUser = async ({
   password: string;
   cpassword: string;
 }) => {
-  console.log("🚀 ~ email:", email);
   // Server-side validation using zod
   const parseResult = await registerSchema.safeParseAsync({
     email,
@@ -36,7 +33,6 @@ export const addUser = async ({
   const existingUser = await query("SELECT * FROM users WHERE email = $1", [
     email,
   ]);
-  console.log("🚀 ~ existingUser:", existingUser);
 
   if (existingUser.rows.length > 0) {
     return { error: true, message: "This email is already registered." };
@@ -59,11 +55,11 @@ export const addUser = async ({
     };
   }
   redirect("/"); // Redirect to home page on success
-  return { success: true };
+  //   return { success: true };
 };
 
 export const loginWithGitHub = async () => {
-  const ccc = await signIn("github");
+  await signIn("github");
 };
 
 export async function getUsers() {
@@ -107,9 +103,10 @@ export const loginWithCredentials = async ({
       password,
       redirect: false,
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
+    const authError = error as AuthError;
     return {
-      message: error.cause.serverMessage,
+      message: authError.cause?.serverMessage,
     };
   }
 };
@@ -129,7 +126,7 @@ export const getUserFromDb = async (email: string, password: string) => {
 
   // Hash the provided psswrd using the stored salt
 
-  const hash: any = hashResult(password, storedSalt);
+  const hash: string = hashResult(password, storedSalt);
 
   // Compare the hashed psswrd with the stored hash
   if (hash === storedHash) {

@@ -2,15 +2,13 @@
 import { loginWithCredentials } from "@/app/actions/authActions";
 import { loginSchema } from "@/lib/zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { AuthError } from "next-auth";
-import { useSession } from "next-auth/react";
-import { redirect, useRouter } from "next/navigation";
+import { getSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
 const LoginForm = () => {
-  const vvv = useSession();
-  console.log("🚀 ~ LoginForm ~ vvv:", vvv);
+  const router = useRouter();
   const {
     handleSubmit,
     register,
@@ -31,8 +29,13 @@ const LoginForm = () => {
       setError(response.message.includes("password") ? "password" : "email", {
         message: response.message,
       });
+    } else {
+      //   redirect("/");
+      //   console.log("oooo");
+      await getSession();
+
+      router.push("/");
     }
-    redirect("/");
   };
 
   return (
