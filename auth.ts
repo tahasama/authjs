@@ -16,7 +16,7 @@ import { redirect } from "next/dist/server/api-utils";
  
 export const { handlers, signIn, signOut, auth } = NextAuth({
   ...authConfig,
-  
+  secret: process.env.AUTH_SECRET,
   providers: [GitHub,
     Credentials({
         credentials: {
