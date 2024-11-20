@@ -1,5 +1,6 @@
 import React from "react";
 import LoginForm from "./loginForm";
+import Link from "next/link";
 
 const Login = () => {
   return (
@@ -7,6 +8,7 @@ const Login = () => {
       <main className="grid gap-10 p-4 rounded ring-2 ring-purple-950">
         <h1 className="text-center">Login page</h1>
         <LoginForm />
+        <Link href={"/frgtpass"}>Forgot Password</Link>
       </main>
     </div>
   );

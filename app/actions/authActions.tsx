@@ -2,9 +2,16 @@
 
 import { signIn } from "@/auth";
 import { query } from "@/lib/db";
-import { chgPasswordSchema, loginSchema, registerSchema } from "@/lib/zod";
+import {
+  chgPasswordSchema,
+  emailForgot,
+  loginSchema,
+  passwordsSchema,
+  registerSchema,
+} from "@/lib/zod";
 import { hashResult, saltAndHashPassword } from "@/lib/utils";
 import { AuthError } from "@/lib/types";
+import { redirect } from "next/navigation";
 
 export const addUser = async ({
   email,
@@ -106,6 +113,66 @@ export const changePassword = async ({
   }
 
   return { user: user, message: "" };
+};
+
+export const forgotPassword = async ({ email }: { email: string }) => {
+  const parseResult = await emailForgot.safeParseAsync({ email });
+
+  if (!parseResult.success) {
+    // return { error: "Validation failed. Please check your inputs." };
+    return {
+      error: true,
+      message: parseResult.error.issues[0].message,
+      success: false,
+    };
+  }
+
+  const existingUser = await query("SELECT * FROM users WHERE email = $1", [
+    email,
+  ]);
+  console.log("🚀 ~ forgotPassword ~ existingUser:", existingUser.rows);
+
+  if (existingUser.rows.length <= 0) {
+    return { error: true, message: "User not found", success: false };
+  }
+
+  return { success: email };
+};
+
+export const updateForgotPassword = async ({
+  email,
+  password,
+  cpassword,
+}: {
+  email: string;
+  password: string;
+  cpassword: string;
+}) => {
+  const parseResult = await registerSchema.safeParseAsync({
+    email,
+    password,
+    cpassword,
+  });
+
+  if (!parseResult.success) {
+    // return { error: "Validation failed. Please check your inputs." };
+    return { error: true, message: parseResult.error.issues[0].message };
+  }
+
+  const pwHash = saltAndHashPassword(password);
+  console.log("🚀 ~ pwHash:", pwHash);
+
+  const result = await query(
+    "UPDATE users SET psswrdhash = $1 WHERE email = $2",
+    [pwHash, email]
+  );
+  console.log("🚀 ~ result:", result);
+
+  if (result.rowCount === 0) {
+    return { user: null, message: "Something went wrong, please try again" };
+  }
+
+  return { user: null, message: "success!" };
 };
 
 export async function getUsers() {
