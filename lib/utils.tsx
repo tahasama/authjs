@@ -1,8 +1,5 @@
 import crypto from "crypto";
-import { client, mailer } from "./email";
-// import Resend from "next-auth/providers/resend";
-// import { Resend } from "resend";
-import emailjs from "emailjs-com";
+import { mailer } from "./email";
 
 export const saltAndHashPassword = (password: string) => {
   const salt = crypto.randomBytes(16).toString("hex"); // Generate random salt

@@ -6,12 +6,10 @@ import {
   chgPasswordSchema,
   emailForgot,
   loginSchema,
-  passwordsSchema,
   registerSchema,
 } from "@/lib/zod";
 import { hashResult, saltAndHashPassword, sendEmail } from "@/lib/utils";
 import { AuthError } from "@/lib/types";
-import { redirect } from "next/navigation";
 import crypto from "crypto";
 
 export const addUser = async ({

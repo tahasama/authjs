@@ -1,7 +1,6 @@
 import { updateForgotPassword } from "@/app/actions/authActions";
-import { passwordsSchema, registerSchema } from "@/lib/zod";
+import { passwordsSchema } from "@/lib/zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useSession } from "next-auth/react";
 import React from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";

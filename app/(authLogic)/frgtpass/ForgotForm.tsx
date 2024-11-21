@@ -1,16 +1,12 @@
 "use client";
 import { forgotPassword } from "@/app/actions/authActions";
 import { emailForgot } from "@/lib/zod";
-// import { changePassword } from "@/app/actions/authActions";
-// import { chgPasswordSchema,  } from "@/lib/zod";
+
 import { zodResolver } from "@hookform/resolvers/zod";
-// import { useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import AddNewPsswrd from "./AddNewPsswrd";
-import { ChangePsswrdReturn } from "@/lib/types";
 
 const ForgotForm = () => {
   const {
