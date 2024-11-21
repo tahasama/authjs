@@ -2,7 +2,9 @@ import { z } from "zod";
 
 const email = z
   .string({ required_error: "Email is required" })
-  .min(1, { message: "This field cannot be empty" });
+  .min(1, { message: "This field cannot be empty" })
+  .email({ message: "Invalid email adress" });
+
 export const emailForgot = z.object({ email });
 
 const password = z

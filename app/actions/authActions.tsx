@@ -9,9 +9,10 @@ import {
   passwordsSchema,
   registerSchema,
 } from "@/lib/zod";
-import { hashResult, saltAndHashPassword } from "@/lib/utils";
+import { hashResult, saltAndHashPassword, sendEmail } from "@/lib/utils";
 import { AuthError } from "@/lib/types";
 import { redirect } from "next/navigation";
+import crypto from "crypto";
 
 export const addUser = async ({
   email,
@@ -130,12 +131,26 @@ export const forgotPassword = async ({ email }: { email: string }) => {
   const existingUser = await query("SELECT * FROM users WHERE email = $1", [
     email,
   ]);
-  console.log("🚀 ~ forgotPassword ~ existingUser:", existingUser.rows);
 
-  if (existingUser.rows.length <= 0) {
+  if (existingUser.rows.length === 0) {
     return { error: true, message: "User not found", success: false };
   }
 
+  const token = crypto.randomBytes(16).toString("hex");
+  const expiresAt = new Date(Date.now() + 60 * 60 * 1000);
+
+  await query(
+    `INSERT INTO password_resets (user_id, token, expires_at)
+     VALUES ($1, $2, $3)`,
+    [existingUser.rows[0].id, token, expiresAt]
+  );
+
+  const resetLink = `${process.env.FRONTEND_URL}/reset-password?token=${token}`;
+  try {
+    await sendEmail(email, "Password Reset Request", resetLink);
+  } catch (error) {
+    console.log("🚀 ~ forgotPassword ~ error:", error);
+  }
   return { success: email };
 };
 
