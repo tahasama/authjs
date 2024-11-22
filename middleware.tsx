@@ -36,7 +36,7 @@ export const config = {
     "/register",
     "/dashboard",
     "/frgtpass",
-    "/addNewPass",
-    "/chngPsswrd",
+    "/addnewpass",
+    "/chngpsswrd",
   ], // Apply to specific routes
 };
