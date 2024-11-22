@@ -1,6 +1,5 @@
 import React from "react";
 import ForgotForm from "./ForgotForm";
-import AddNewPsswrd from "../addNewPass/AddNewPsswrd";
 
 const ForgotPassword = () => {
   return (

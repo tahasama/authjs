@@ -6,7 +6,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import AddNewPsswrd from "../addNewPass/AddNewPsswrd";
 import { redirect } from "next/navigation";
 
 const ForgotForm = () => {
@@ -24,7 +23,6 @@ const ForgotForm = () => {
   //   message: "",
   //   success: false,
   // });
-  const [success, setSuccess] = useState<string | boolean>("");
 
   const onSubmit = async (data: z.infer<typeof emailForgot>) => {
     const { email } = data;
@@ -50,7 +48,6 @@ const ForgotForm = () => {
     <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-3">
       {/* {errors.root && <p style={{ color: "red" }}>{errors.root.message}</p>} */}
       <label htmlFor="email">Email</label>
-      <p className="text-pink-500">{success ? "success" : "failed"}</p>
       <input
         type="email"
         id="email"

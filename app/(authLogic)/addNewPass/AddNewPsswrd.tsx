@@ -1,8 +1,8 @@
 "use client";
 import { updateForgotPassword } from "@/app/actions/authActions";
-import { passwordsSchema, registerSchema } from "@/lib/zod";
+import { registerSchema } from "@/lib/zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useParams, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import React from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
