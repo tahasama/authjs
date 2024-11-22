@@ -11,6 +11,7 @@ import {
 import { hashResult, saltAndHashPassword, sendEmail } from "@/lib/utils";
 import { AuthError } from "@/lib/types";
 import crypto from "crypto";
+import { redirect } from "next/navigation";
 
 export const addUser = async ({
   email,
@@ -143,7 +144,7 @@ export const forgotPassword = async ({ email }: { email: string }) => {
     [existingUser.rows[0].id, token, expiresAt]
   );
 
-  const resetLink = `${process.env.FRONTEND_URL}/reset-password?token=${token}`;
+  const resetLink = `${process.env.FRONTEND_URL}/addNewPass?token=${token}`;
   try {
     await sendEmail(email, "Password Reset Request", resetLink);
   } catch (error) {
@@ -156,10 +157,12 @@ export const updateForgotPassword = async ({
   email,
   password,
   cpassword,
+  token,
 }: {
   email: string;
   password: string;
   cpassword: string;
+  token: string;
 }) => {
   const parseResult = await registerSchema.safeParseAsync({
     email,
@@ -170,6 +173,23 @@ export const updateForgotPassword = async ({
   if (!parseResult.success) {
     // return { error: "Validation failed. Please check your inputs." };
     return { error: true, message: parseResult.error.issues[0].message };
+  }
+
+  const res = await query("SELECT * FROM password_resets WHERE token = $1", [
+    token,
+  ]);
+
+  if (res.rows.length === 0) {
+    return {
+      user: null,
+      message: "Something went wrong please, try to reset your password again",
+    };
+  }
+  if (res.rows[0].expires_at < Date.now()) {
+    return {
+      user: null,
+      message: "token expired, please try to reset your password again",
+    };
   }
 
   const pwHash = saltAndHashPassword(password);
@@ -184,8 +204,11 @@ export const updateForgotPassword = async ({
   if (result.rowCount === 0) {
     return { user: null, message: "Something went wrong, please try again" };
   }
-
-  return { user: null, message: "success!" };
+  await query("DELETE FROM password_resets WHERE user_id = $1", [
+    res.rows[0].id,
+  ]);
+  // return { user: null, message: "success!" };
+  redirect("/login");
 };
 
 export async function getUsers() {

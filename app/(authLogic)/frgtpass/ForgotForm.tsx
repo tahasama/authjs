@@ -6,7 +6,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import AddNewPsswrd from "./AddNewPsswrd";
+import AddNewPsswrd from "../addNewPass/AddNewPsswrd";
+import { redirect } from "next/navigation";
 
 const ForgotForm = () => {
   const {
@@ -38,43 +39,35 @@ const ForgotForm = () => {
         });
       } else {
         // setState(response);
-        setSuccess(response.success);
+        // setSuccess(response.success);
+        redirect("/login");
       }
       console.log("🚀 ~ onSubmit ~ response:", response);
     }
   };
 
   return (
-    <>
-      {!success ? (
-        <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-3">
-          {/* {errors.root && <p style={{ color: "red" }}>{errors.root.message}</p>} */}
-          <label htmlFor="email">Email</label>
-          <p className="text-pink-500">{success ? "success" : "failed"}</p>
-          <input
-            type="email"
-            id="email"
-            className="rounded p-1.5 bg-slate-500 text-slate-300"
-            {...register("email")}
-            placeholder="Add your email"
-          />
-          {errors.email && (
-            <i className="text-red-500 text-sm font-thin">
-              {errors.email.message}
-            </i>
-          )}
-          <button
-            type="submit"
-            className="bg-blue-950 text-center rounded-md p-1.5 mt-1 hover:bg-blue-900/50"
-          >
-            Update
-          </button>
-        </form>
-      ) : (
-        // <AddNewPsswrd email={state.message} />
-        <AddNewPsswrd email={success as string} />
+    <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-3">
+      {/* {errors.root && <p style={{ color: "red" }}>{errors.root.message}</p>} */}
+      <label htmlFor="email">Email</label>
+      <p className="text-pink-500">{success ? "success" : "failed"}</p>
+      <input
+        type="email"
+        id="email"
+        className="rounded p-1.5 bg-slate-500 text-slate-300"
+        {...register("email")}
+        placeholder="Add your email"
+      />
+      {errors.email && (
+        <i className="text-red-500 text-sm font-thin">{errors.email.message}</i>
       )}
-    </>
+      <button
+        type="submit"
+        className="bg-blue-950 text-center rounded-md p-1.5 mt-1 hover:bg-blue-900/50"
+      >
+        Update
+      </button>
+    </form>
   );
 };
 
