@@ -1,5 +1,5 @@
 import React from "react";
-import ChangeForm from "./changeForm";
+import ChangeForm from "./ChangeForm";
 
 const page = () => {
   return (
