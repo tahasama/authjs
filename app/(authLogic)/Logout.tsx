@@ -12,7 +12,7 @@ const Logout = () => {
     >
       <button
         type="submit"
-        className="bg-red-600 rounded-sm py-1 px-3  text-slate-200"
+        className="bg-red-600/80 rounded-md py-3 px-5 text-slate-200 hover:brightness-90 transition-all duration-150"
       >
         Sign out
       </button>

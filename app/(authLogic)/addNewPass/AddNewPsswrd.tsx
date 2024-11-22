@@ -2,6 +2,7 @@
 import { updateForgotPassword } from "@/app/actions/authActions";
 import { registerSchema } from "@/lib/zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import React from "react";
 import { useForm } from "react-hook-form";
@@ -10,7 +11,6 @@ import { z } from "zod";
 const AddNewPsswrd = () => {
   const param = useSearchParams();
   const token = param.get("token");
-  console.log("🚀 ~ AddNewPsswrd ~ token:", token);
   const {
     handleSubmit,
     register,
@@ -42,7 +42,16 @@ const AddNewPsswrd = () => {
   return (
     <>
       {!token ? (
-        <>Token Expired please try again </>
+        <div className="inline">
+          TNo token, please click{" "}
+          <Link
+            href={"/frgtpass"}
+            className="text-sky-600 hover:underline transition-all duration-500"
+          >
+            here
+          </Link>{" "}
+          to reset again{" "}
+        </div>
       ) : (
         <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-3">
           <label htmlFor="password">Email</label>

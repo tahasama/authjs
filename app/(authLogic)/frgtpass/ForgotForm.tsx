@@ -1,7 +1,6 @@
 "use client";
 import { forgotPassword } from "@/app/actions/authActions";
 import { emailForgot } from "@/lib/zod";
-
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
