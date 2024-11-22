@@ -43,7 +43,7 @@ const AddNewPsswrd = () => {
     <>
       {!token ? (
         <div className="inline">
-          TNo token, please click{" "}
+          No token, please click{" "}
           <Link
             href={"/frgtpass"}
             className="text-sky-600 hover:underline transition-all duration-500"

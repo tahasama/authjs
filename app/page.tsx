@@ -1,4 +1,4 @@
-export default function Home() {
+export default async function Home() {
   return (
     <div className="grid items-center justify-items-center min-h-screen font-[family-name:var(--font-geist-sans)]">
       <main className="grid gap-10">

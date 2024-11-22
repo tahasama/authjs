@@ -15,12 +15,22 @@ const Navbar = () => {
         status === "authenticated" ? "bg-purple-950" : "bg-cyan-800/50"
       }`}
     >
-      <Link
-        href={"/"}
-        className="bg-purple-800/40 rounded-md py-3 px-9 hover:brightness-75 transition-all duration-150"
-      >
-        Home
-      </Link>
+      <div className="flex gap-2">
+        <Link
+          href={"/"}
+          className="bg-purple-800/40 rounded-md py-3 px-9 hover:brightness-75 transition-all duration-150"
+        >
+          Home
+        </Link>
+        {status === "authenticated" && (
+          <Link
+            href={"/dashboard"}
+            className="bg-fuchsia-800/40 rounded-md py-3 px-6 hover:brightness-75 transition-all duration-150"
+          >
+            Dashboard
+          </Link>
+        )}
+      </div>
       <p>
         {status === "authenticated"
           ? data?.user?.email
