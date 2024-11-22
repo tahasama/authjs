@@ -3,7 +3,6 @@ import { forgotPassword } from "@/app/actions/authActions";
 import { emailForgot } from "@/lib/zod";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { redirect } from "next/navigation";
