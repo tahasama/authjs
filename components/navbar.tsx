@@ -8,7 +8,7 @@ import { LoginProviders } from "@/lib/types";
 
 const Navbar = () => {
   const { data, status } = useSession();
-  const providers: LoginProviders[] = ["google", "github"];
+  const providers: LoginProviders[] = ["google", "github", "resend"];
   return (
     <div
       className={`flex p-5 justify-around items-center ${

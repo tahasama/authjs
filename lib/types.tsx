@@ -10,8 +10,15 @@ export interface ChangePsswrdReturn {
   success: boolean;
 }
 
-export type LoginProviders = "google" | "github";
+export type LoginProviders = "google" | "github" | "resend";
 
 export interface LoginProvider {
   provider: LoginProviders;
+}
+
+export interface ErrorMessagesProps {
+  Configuration: string;
+  AccessDenied: string;
+  Default: string;
+  Verification: string;
 }

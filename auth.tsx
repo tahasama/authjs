@@ -2,16 +2,23 @@ import NextAuth from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import GitHub from "next-auth/providers/github";
 import Google from "next-auth/providers/google";
+import Resend from "next-auth/providers/resend";
 import { loginSchema } from "./lib/zod";
 import { getUserFromDb } from "./app/actions/authActions";
 import authConfig from "./auth.config";
+import PostgresAdapter from "@auth/pg-adapter";
+import { pool } from "./lib/db";
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   ...authConfig,
+  adapter: PostgresAdapter(pool),
   secret: process.env.AUTH_SECRET,
   providers: [
     GitHub,
     Google,
+    Resend({
+      from: process.env.EMAIL_DOMAIN,
+    }),
     Credentials({
       credentials: {
         email: {},
@@ -31,4 +38,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       },
     }),
   ],
+  pages: {
+    error: "/authpg/error",
+    verifyRequest: "/authpg/verify-request",
+  },
 });

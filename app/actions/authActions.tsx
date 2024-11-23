@@ -70,8 +70,14 @@ export const addUser = async ({
 };
 
 export const loginWithGitHub = async (formdata: FormData) => {
+  // const email = formdata.get("email") as any;
+  // console.log("🚀 ~ loginWithGitHub ~ email:", email);
   const provider = formdata.get("provider") as LoginProviders;
-  await signIn(provider);
+  if (provider !== "resend") {
+    await signIn(provider);
+  } else {
+    await signIn(provider, formdata);
+  }
 };
 
 export const loginWithGoogle = async () => {

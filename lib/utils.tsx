@@ -19,7 +19,7 @@ export const sendEmail = async (
   resetLink: string
 ) => {
   await mailer.sendMail({
-    from: "login-project@resend.dev",
+    from: "login-project@codebytaha.com",
     subject: subject,
     to: email,
     text: `hello, click the link to reset your email, ${resetLink}`,
