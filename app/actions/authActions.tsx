@@ -9,7 +9,7 @@ import {
   registerSchema,
 } from "@/lib/zod";
 import { hashResult, saltAndHashPassword, sendEmail } from "@/lib/utils";
-import { AuthError, LoginProvider, LoginProviders } from "@/lib/types";
+import { AuthError, LoginProviders } from "@/lib/types";
 import crypto from "crypto";
 import { redirect } from "next/navigation";
 
