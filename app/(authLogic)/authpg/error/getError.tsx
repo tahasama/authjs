@@ -19,7 +19,11 @@ const GetError = () => {
     ? errorMessages[error as keyof ErrorMessagesProps]
     : errorMessages.Default;
 
-  return <div>{error ? errorMessage : errorMessages.Default}</div>;
+  return (
+    <div className="text-center text-red-600">
+      {error ? errorMessage : errorMessages.Default}
+    </div>
+  );
 };
 
 export default GetError;
