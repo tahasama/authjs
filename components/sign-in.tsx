@@ -3,7 +3,7 @@ import { LoginProvider } from "@/lib/types";
 
 const providerStyle = {
   github: "bg-black",
-  google: "bg-fuchsia-800",
+  google: "bg-fuchsia-800/90",
 };
 
 export default function SignIn({ provider }: LoginProvider) {
