@@ -9,7 +9,7 @@ import {
   registerSchema,
 } from "@/lib/zod";
 import { hashResult, saltAndHashPassword, sendEmail } from "@/lib/utils";
-import { AuthError } from "@/lib/types";
+import { AuthError, LoginProvider, LoginProviders } from "@/lib/types";
 import crypto from "crypto";
 import { redirect } from "next/navigation";
 
@@ -69,8 +69,13 @@ export const addUser = async ({
   return { success: true };
 };
 
-export const loginWithGitHub = async () => {
-  await signIn("github");
+export const loginWithGitHub = async (formdata: FormData) => {
+  const provider = formdata.get("provider") as LoginProviders;
+  await signIn(provider);
+};
+
+export const loginWithGoogle = async () => {
+  await signIn("google");
 };
 
 export const changePassword = async ({

@@ -4,11 +4,11 @@ import { useSession } from "next-auth/react";
 import Logout from "@/app/(authLogic)/Logout";
 import Link from "next/link";
 import SignIn from "./sign-in";
-// import { auth } from "@/auth";
+import { LoginProviders } from "@/lib/types";
 
 const Navbar = () => {
   const { data, status } = useSession();
-
+  const providers: LoginProviders[] = ["google", "github"];
   return (
     <div
       className={`flex p-5 justify-around items-center ${
@@ -40,7 +40,9 @@ const Navbar = () => {
       </p>
       {status !== "authenticated" && (
         <div className="flex gap-2">
-          <SignIn />
+          {providers.map((provider, index) => {
+            return <SignIn provider={provider} key={index} />;
+          })}
           <Link
             href={"/login"}
             className="bg-slate-900 rounded-md p-3 hover:brightness-75 transition-all duration-150"
