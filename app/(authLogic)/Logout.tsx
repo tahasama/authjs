@@ -1,5 +1,4 @@
 // "use server";
-import { signOut } from "next-auth/react";
 import { useActionState } from "react";
 import { FiLogOut } from "react-icons/fi";
 import { logout } from "../actions/authActions";
