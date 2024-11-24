@@ -39,9 +39,12 @@ const ChangeForm = () => {
           }
         );
       } else {
-        console.log("your password had been succefully updated!");
         router.back();
       }
+    } else {
+      setError("currentPassword", {
+        message: "User is not logged in",
+      });
     }
   };
 

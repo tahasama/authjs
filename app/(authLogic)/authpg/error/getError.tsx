@@ -20,7 +20,7 @@ const GetError = () => {
     : errorMessages.Default;
 
   return (
-    <div className="text-center text-red-600">
+    <div className="text-center text-red-600 p-40">
       {error ? errorMessage : errorMessages.Default}
     </div>
   );

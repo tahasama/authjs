@@ -28,13 +28,16 @@ const AddNewPsswrd = () => {
         cpassword: data.cpassword,
         token,
       });
-      console.log("🚀 ~ onSubmit ~ message:", message);
 
       // if (!message) {
       //   router.back();
       // }
       setError("password", {
         message: message,
+      });
+    } else {
+      setError("password", {
+        message: "Network error please try again",
       });
     }
   };

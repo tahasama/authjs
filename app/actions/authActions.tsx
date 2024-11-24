@@ -1,6 +1,6 @@
 "use server";
 
-import { signIn } from "@/auth";
+import { signIn, signOut } from "@/auth";
 import { query } from "@/lib/db";
 import {
   chgPasswordSchema,
@@ -70,8 +70,6 @@ export const addUser = async ({
 };
 
 export const loginWithProvider = async (formdata: FormData) => {
-  // const email = formdata.get("email") as any;
-  // console.log("🚀 ~ loginWithGitHub ~ email:", email);
   const provider = formdata.get("provider") as LoginProviders;
   if (provider !== "resend") {
     await signIn(provider);
@@ -82,6 +80,10 @@ export const loginWithProvider = async (formdata: FormData) => {
 
 export const loginWithGoogle = async () => {
   await signIn("google");
+};
+
+export const logout = async () => {
+  await signOut({ redirectTo: "/login" });
 };
 
 export const changePassword = async ({

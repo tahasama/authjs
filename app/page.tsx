@@ -5,7 +5,6 @@ export default async function Home() {
         <h1 className="text-xl">This is a Auth app</h1>
         <h2 className="text-lg">We will create an all auth app with auth.js</h2>
         <p>The navbar will show if user is logged or not</p>
-        {/* <Logout /> */}
       </main>
     </div>
   );

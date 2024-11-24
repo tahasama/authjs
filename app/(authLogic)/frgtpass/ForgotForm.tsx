@@ -38,7 +38,10 @@ const ForgotForm = () => {
         // setSuccess(response.success);
         redirect("/login");
       }
-      console.log("🚀 ~ onSubmit ~ response:", response);
+    } else {
+      setError("email", {
+        message: "Error, plae add an email",
+      });
     }
   };
 

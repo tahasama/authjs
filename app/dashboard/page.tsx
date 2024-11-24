@@ -4,6 +4,7 @@ import Link from "next/link";
 
 const Dashboard = () => {
   const { status, data } = useSession();
+  console.log("🚀 ~ Dashboard ~ data:");
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen">
@@ -17,7 +18,7 @@ const Dashboard = () => {
             href="/chngPsswrd"
             className=" px-6 py-3 text-sm font-medium text-white bg-blue-500 rounded-lg hover:bg-blue-600"
           >
-            Reset Password
+            Set / Reset Password
           </Link>
         </div>
       ) : (
