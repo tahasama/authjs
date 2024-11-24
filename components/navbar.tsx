@@ -3,15 +3,15 @@ import React from "react";
 import { useSession } from "next-auth/react";
 import Logout from "@/app/(authLogic)/Logout";
 import Link from "next/link";
-import SignIn from "./sign-in";
 import { LoginProviders } from "@/lib/types";
+import { FiLogIn } from "react-icons/fi";
 
 const Navbar = () => {
   const { data, status } = useSession();
   const providers: LoginProviders[] = ["google", "github", "resend"];
   return (
     <div
-      className={`flex p-5 justify-around items-center ${
+      className={`flex p-5 justify-between items-center ${
         status === "authenticated" ? "bg-purple-950" : "bg-cyan-800/50"
       }`}
     >
@@ -40,20 +40,18 @@ const Navbar = () => {
       </p>
       {status !== "authenticated" && (
         <div className="flex gap-2">
-          {providers.map((provider, index) => {
-            return <SignIn provider={provider} key={index} />;
-          })}
           <Link
             href={"/login"}
-            className="bg-slate-900 rounded-md p-3 hover:brightness-75 transition-all duration-150"
+            className="bg-slate-900 flex justify-center items-center gap-2 rounded-md p-3 hover:brightness-75 transition-all duration-150"
           >
-            got to login page
+            <FiLogIn size={20} />
+            Sign in
           </Link>
           <Link
             href={"/register"}
             className="bg-blue-950 rounded-md p-3 hover:brightness-75 transition-all duration-150"
           >
-            got to register page
+            Sign up
           </Link>
         </div>
       )}

@@ -1,6 +1,6 @@
 // "use server";
 import { signOut } from "next-auth/react";
-import React from "react";
+import { FiLogOut } from "react-icons/fi";
 
 const Logout = () => {
   return (
@@ -12,9 +12,9 @@ const Logout = () => {
     >
       <button
         type="submit"
-        className="bg-red-600/80 rounded-md py-3 px-5 text-slate-200 hover:brightness-90 transition-all duration-150"
+        className="bg-red-600/80 flex justify-center items-center gap-2 rounded-md py-3 px-5 text-sm text-slate-200 hover:brightness-90 transition-all duration-150"
       >
-        Sign out
+        <FiLogOut size={18} /> Log out
       </button>
     </form>
   );

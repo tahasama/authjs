@@ -13,9 +13,14 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   ...authConfig,
   adapter: PostgresAdapter(pool),
   secret: process.env.AUTH_SECRET,
+
   providers: [
-    GitHub,
-    Google,
+    GitHub({
+      allowDangerousEmailAccountLinking: true,
+    }),
+    Google({
+      allowDangerousEmailAccountLinking: true,
+    }),
     Resend({
       from: process.env.EMAIL_DOMAIN,
     }),
@@ -25,8 +30,10 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         psswrd: {},
       },
       async authorize(credentials: any) {
+        console.log("000000000000");
         const { email, password } = await loginSchema.parseAsync(credentials);
         const result = await getUserFromDb(email, password);
+        console.log("🚀 ~ authorize ~ result:", result.user);
         if (!result.user) {
           // Throw an error with a cause
           throw new Error("Login failed", {
@@ -41,5 +48,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   pages: {
     error: "/authpg/error",
     verifyRequest: "/authpg/verify-request",
+  },
+  session: {
+    strategy: "jwt", // Use JWT or database-based sessions
   },
 });

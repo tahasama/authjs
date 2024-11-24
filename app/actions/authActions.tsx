@@ -69,7 +69,7 @@ export const addUser = async ({
   return { success: true };
 };
 
-export const loginWithGitHub = async (formdata: FormData) => {
+export const loginWithProvider = async (formdata: FormData) => {
   // const email = formdata.get("email") as any;
   // console.log("🚀 ~ loginWithGitHub ~ email:", email);
   const provider = formdata.get("provider") as LoginProviders;
