@@ -6,6 +6,7 @@ import {
   chgPasswordSchema,
   emailForgot,
   loginSchema,
+  passwordsSchema,
   registerSchema,
 } from "@/lib/zod";
 import { hashResult, saltAndHashPassword, sendEmail } from "@/lib/utils";
@@ -150,18 +151,23 @@ export const forgotPassword = async ({ email }: { email: string }) => {
 
   const token = crypto.randomBytes(16).toString("hex");
   const expiresAt = new Date(Date.now() + 60 * 60 * 1000);
-
-  await query(
-    `INSERT INTO password_resets (user_id, token, expires_at)
+  try {
+    await query(
+      `INSERT INTO password_resets (user_id, token, expires_at)
      VALUES ($1, $2, $3)`,
-    [existingUser.rows[0].id, token, expiresAt]
-  );
+      [existingUser.rows[0].id, token, expiresAt]
+    );
+  } catch (error) {
+    console.log("🚀 ~ forgotPassword ~ error:", error);
+    return { message: "could not send email, please try again" };
+  }
 
-  const resetLink = `${process.env.FRONTEND_URL}/addNewPass?token=${token}`;
+  const resetLink = `${process.env.FRONTEND_URL}/addnewpass?email=${email}&token=${token}`;
   try {
     await sendEmail(email, "Password Reset Request", resetLink);
   } catch (error) {
     console.log("🚀 ~ forgotPassword ~ error:", error);
+    return { message: "could not send email, please try again" };
   }
   return { success: email };
 };
@@ -177,8 +183,7 @@ export const updateForgotPassword = async ({
   cpassword: string;
   token: string;
 }) => {
-  const parseResult = await registerSchema.safeParseAsync({
-    email,
+  const parseResult = await passwordsSchema.safeParseAsync({
     password,
     cpassword,
   });
@@ -206,22 +211,27 @@ export const updateForgotPassword = async ({
   }
 
   const pwHash = saltAndHashPassword(password);
-  console.log("🚀 ~ pwHash:", pwHash);
 
   const result = await query(
     "UPDATE users SET psswrdhash = $1 WHERE email = $2",
     [pwHash, email]
   );
-  console.log("🚀 ~ result:", result);
 
   if (result.rowCount === 0) {
     return { user: null, message: "Something went wrong, please try again" };
+  } else {
+    try {
+      await query("DELETE FROM password_resets WHERE user_id = $1", [
+        res.rows[0].user_id,
+      ]);
+    } catch (error) {
+      console.log("🚀 ~ error:", error);
+      return { user: null, message: "Something went wrong, please try again" };
+    }
   }
-  await query("DELETE FROM password_resets WHERE user_id = $1", [
-    res.rows[0].id,
-  ]);
+
   // return { user: null, message: "success!" };
-  redirect("/login");
+  redirect("/dashboard");
 };
 
 export async function getUsers() {

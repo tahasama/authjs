@@ -1,29 +1,33 @@
 "use client";
 import { updateForgotPassword } from "@/app/actions/authActions";
-import { registerSchema } from "@/lib/zod";
+import { passwordsSchema } from "@/lib/zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import React from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { z } from "zod";
 
 const AddNewPsswrd = () => {
   const param = useSearchParams();
   const token = param.get("token");
+  const email = param.get("email");
+  const [loading, setLoading] = useState<boolean>(false);
   const {
     handleSubmit,
     register,
     formState: { errors },
     setError,
-  } = useForm<z.infer<typeof registerSchema>>({
-    resolver: zodResolver(registerSchema),
+  } = useForm<z.infer<typeof passwordsSchema>>({
+    resolver: zodResolver(passwordsSchema),
   });
 
-  const onSubmit = async (data: z.infer<typeof registerSchema>) => {
-    if (token) {
+  const onSubmit = async (data: z.infer<typeof passwordsSchema>) => {
+    setLoading(!loading);
+    if (token && email) {
       const { message } = await updateForgotPassword({
-        email: data.email,
+        email,
         password: data.password,
         cpassword: data.cpassword,
         token,
@@ -35,6 +39,7 @@ const AddNewPsswrd = () => {
       setError("password", {
         message: message,
       });
+      setLoading(!loading);
     } else {
       setError("password", {
         message: "Network error please try again",
@@ -57,21 +62,7 @@ const AddNewPsswrd = () => {
         </div>
       ) : (
         <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-3">
-          <label htmlFor="password">Email</label>
-          <input
-            type="email"
-            id="email"
-            className="rounded p-1.5 bg-slate-500 text-slate-300"
-            {...register("email")}
-            placeholder="Add your password"
-          />
-          {errors.email && (
-            <i className="text-red-500 text-sm font-thin">
-              {errors.email.message}
-            </i>
-          )}
           <label htmlFor="password">Password</label>
-
           <input
             type="password"
             id="password"
@@ -100,8 +91,18 @@ const AddNewPsswrd = () => {
           <button
             type="submit"
             className="bg-blue-950 text-center rounded-md p-1.5 mt-1 hover:bg-blue-900/50"
+            disabled={loading}
           >
-            Update
+            {!loading ? (
+              "Update Password"
+            ) : (
+              <div className="flex justify-center items-center gap-1">
+                <span className="animate-spin">
+                  <AiOutlineLoading3Quarters />
+                </span>
+                <p>Updating...</p>
+              </div>
+            )}
           </button>
         </form>
       )}
