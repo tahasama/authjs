@@ -3,12 +3,10 @@ import React from "react";
 import { useSession } from "next-auth/react";
 import Logout from "@/app/(authLogic)/Logout";
 import Link from "next/link";
-import { LoginProviders } from "@/lib/types";
 import { FiLogIn } from "react-icons/fi";
 
 const Navbar = () => {
   const { data, status } = useSession();
-  const providers: LoginProviders[] = ["google", "github", "resend"];
   return (
     <div
       className={`flex p-5 justify-between items-center ${

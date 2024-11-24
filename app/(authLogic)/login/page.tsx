@@ -2,7 +2,6 @@ import LoginForm from "./loginForm";
 import Link from "next/link";
 import { LoginProviders } from "@/lib/types";
 import SignIn from "@/app/(authLogic)/login/sign-in";
-import { auth } from "@/auth";
 
 const Login = async () => {
   const providers: LoginProviders[] = ["resend", "github", "google"];

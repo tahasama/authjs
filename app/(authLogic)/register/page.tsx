@@ -2,7 +2,6 @@ import RegisterForm from "./registerForm";
 import Link from "next/link";
 import { LoginProviders } from "@/lib/types";
 import SignIn from "@/app/(authLogic)/login/sign-in";
-import { auth } from "@/auth";
 
 const Register = () => {
   const providers: LoginProviders[] = ["resend", "github", "google"];
