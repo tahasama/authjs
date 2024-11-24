@@ -3,7 +3,7 @@ import { loginWithCredentials } from "@/app/actions/authActions";
 import { loginSchema } from "@/lib/zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { getSession } from "next-auth/react";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
@@ -11,7 +11,8 @@ import { z } from "zod";
 
 const LoginForm = () => {
   const router = useRouter();
-  const path = usePathname();
+  const param = useSearchParams();
+  const redirect = param.get("redirect");
   const [loading, setLoading] = useState(false);
 
   const {
@@ -25,7 +26,7 @@ const LoginForm = () => {
 
   const onSubmit = async (data: z.infer<typeof loginSchema>) => {
     setLoading(!loading);
-
+    const currentPath = window.location.pathname;
     const { email, password } = data;
     const response = await loginWithCredentials({
       email,
@@ -39,9 +40,13 @@ const LoginForm = () => {
     } else {
       setLoading(!loading);
       await getSession();
-      if (path !== "/addnewpass") {
+      if (redirect !== "/addnewpass") {
+        // If coming from the reset password page, redirect to dashboard
         router.back();
-      } else router.push("/dashboard");
+      } else {
+        // Redirect back to the previous page or default to dashboard
+        router.push("/dashboard");
+      }
     }
   };
 

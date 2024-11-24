@@ -3,13 +3,14 @@ import { updateForgotPassword } from "@/app/actions/authActions";
 import { passwordsSchema } from "@/lib/zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
-import { useSearchParams } from "next/navigation";
+import { useSearchParams, useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { z } from "zod";
 
 const AddNewPsswrd = () => {
+  const router = useRouter();
   const param = useSearchParams();
   const token = param.get("token");
   const email = param.get("email");
@@ -40,6 +41,10 @@ const AddNewPsswrd = () => {
         message: message,
       });
       setLoading(!loading);
+      typeof window !== "undefined" &&
+        router.push(
+          `/login?redirect=${encodeURIComponent(window.location.pathname)}`
+        );
     } else {
       setError("password", {
         message: "Network error please try again",

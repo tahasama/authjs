@@ -230,8 +230,8 @@ export const updateForgotPassword = async ({
     }
   }
 
-  // return { user: null, message: "success!" };
-  redirect("/dashboard");
+  return { user: null, message: "success!" };
+  // redirect("/login");
 };
 
 export async function getUsers() {
