@@ -8,9 +8,9 @@ const Register = () => {
 
   return (
     <div className="grid items-center justify-center h-[calc(100vh-100px)] bg-gray-100 dark:bg-gray-900">
-      <main className="flex flex-col-reverse sm:flex-row gap-8 p-8 sm:py-8 sm:px-10 rounded-xl bg-white dark:bg-gray-800  shadow-lg">
+      <main className="flex flex-col-reverse sm:flex-row gap-8 p-8 sm:py-10 sm:px-10 rounded-xl bg-white dark:bg-gray-800  shadow-lg">
         {/* Left side: Login form section */}
-        <div className="max-w-md py-8 px-6 ring-1 dark:ring-gray-700/40 rounded-lg">
+        <div className="max-w-md py-6 px-6 ring-1 dark:ring-gray-700/40 rounded-lg">
           <RegisterForm />
         </div>
 
