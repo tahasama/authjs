@@ -4,6 +4,7 @@ import { useSession } from "next-auth/react";
 import Logout from "@/app/(authLogic)/Logout";
 import Link from "next/link";
 import { FiLogIn } from "react-icons/fi";
+import UserDropdown from "./userDropdown";
 
 const Navbar = () => {
   const { data, status } = useSession();
@@ -47,7 +48,7 @@ const Navbar = () => {
           </Link>
         </div>
       )}
-      {status === "authenticated" && <Logout />}
+      {status === "authenticated" && <UserDropdown />}
     </div>
   );
 };

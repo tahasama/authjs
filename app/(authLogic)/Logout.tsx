@@ -12,10 +12,7 @@ const Logout = () => {
 
   return (
     <form action={action}>
-      <button
-        type="submit"
-        className="bg-red-600/80 flex justify-center items-center gap-2 rounded-md py-3 px-5 text-sm text-slate-200 hover:brightness-90 transition-all duration-150"
-      >
+      <button type="submit" className=" flex items-center gap-2 w-full">
         {!pending ? (
           <>
             <FiLogOut size={18} /> <span>Log out </span>

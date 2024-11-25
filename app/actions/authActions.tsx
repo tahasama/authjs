@@ -96,7 +96,7 @@ export const loginWithProvider = async (
 // };
 
 export const logout = async () => {
-  await signOut({ redirectTo: "/login" });
+  await signOut();
 };
 
 export const changePassword = async ({
