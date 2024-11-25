@@ -8,7 +8,7 @@ const Register = () => {
 
   return (
     <div className="grid items-center justify-center h-[calc(100vh-100px)] bg-gray-100 dark:bg-gray-900">
-      <main className="flex flex-col-reverse sm:flex-row gap-8 p-8 sm:py-10 sm:px-10 rounded-xl bg-white dark:bg-gray-800  shadow-lg">
+      <main className="flex flex-col-reverse sm:flex-row gap-4 sm:gap-8 p-2.5 sm:p-10 rounded-xl bg-white dark:bg-gray-800  shadow-lg">
         {/* Left side: Login form section */}
         <div className="max-w-md py-6 px-6 ring-1 dark:ring-gray-700/40 rounded-lg">
           <RegisterForm />
@@ -16,16 +16,16 @@ const Register = () => {
 
         {/* Separator */}
         <div className="flex sm:flex-col items-center justify-center gap-2">
-          <div className="flex-grow w-px sm:w-px bg-gray-400 dark:bg-gray-600"></div>
+          <div className="flex-grow h-px sm:w-px bg-gray-400 dark:bg-gray-600"></div>
           <span className="text-gray-600 dark:text-gray-400">OR</span>
-          <div className="flex-grow w-px sm:w-px bg-gray-400 dark:bg-gray-600"></div>
+          <div className="flex-grow h-px sm:w-px bg-gray-400 dark:bg-gray-600"></div>
         </div>
 
         {/* Right side: Provider login section */}
         <div className="flex flex-col items-center gap-6 p-6  max-w-[300px] ring-1 dark:ring-gray-700/40  rounded-lg">
           {/* <div className="max-w-md p-6 ring-1 dark:ring-gray-700/40 rounded-lg"> */}
 
-          <div className="flex flex-wrap justify-between gap-6 min-w-[16rem]">
+          <div className="flex flex-wrap justify-between gap-3 sm:gap-8 min-w-[16rem]">
             {providers.map((provider, index) => (
               <div key={index} className="w-full sm:w-auto">
                 <SignIn provider={provider} />

@@ -75,14 +75,12 @@ export default function SignIn({ provider }: LoginProvider) {
             <span className="animate-spin">
               <AiOutlineLoading3Quarters />
             </span>
-            <p>Sending...</p>
           </div>
         ) : (
-          <>
-            <span>{providerStyle[provider]?.icon}</span>
-            {provider === "resend" ? "Send magic link" : provider}
-          </>
+          <span>{providerStyle[provider]?.icon}</span>
         )}
+
+        <>{provider === "resend" ? "Send magic link" : provider}</>
       </button>
     </form>
   );

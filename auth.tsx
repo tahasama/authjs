@@ -56,7 +56,9 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     async signIn({ user, account }) {
       if (
         account &&
-        (account.provider === "google" || account.provider === "github")
+        (account.provider === "google" ||
+          account.provider === "github" ||
+          account.provider === "resend")
       ) {
         try {
           // Check if user already exists in the database

@@ -28,9 +28,8 @@ const RegisterForm = () => {
       password: data.password,
       cpassword: data.cpassword,
     });
-    console.log("🚀 ~ onSubmit ~ message:", message);
+    setLoading(false);
     if (!message) {
-      setLoading(!loading);
       await getSession();
       router.back();
     }

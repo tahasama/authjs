@@ -31,13 +31,12 @@ const LoginForm = () => {
       email,
       password,
     });
-
+    setLoading(false);
     if (response?.message) {
       setError(response.message.includes("password") ? "password" : "email", {
         message: response.message,
       });
     } else {
-      setLoading(!loading);
       await getSession();
       if (redirect !== "/addnewpass") {
         // If coming from the reset password page, redirect to dashboard
@@ -52,7 +51,7 @@ const LoginForm = () => {
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="flex flex-col gap-5 min-w-[15rem]"
+      className="flex flex-col gap-5 min-w-[15rem] -mt-0.5"
     >
       <label htmlFor="email" className="text-gray-700 dark:text-gray-300">
         Email

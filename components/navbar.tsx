@@ -45,12 +45,6 @@ const Navbar = () => {
             <FiLogIn size={20} />
             Sign in
           </Link>
-          <Link
-            href={"/register"}
-            className="bg-blue-950 rounded-md p-3 hover:brightness-75 transition-all duration-150"
-          >
-            Sign up
-          </Link>
         </div>
       )}
       {status === "authenticated" && <Logout />}
