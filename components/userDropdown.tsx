@@ -1,6 +1,5 @@
 "use client";
 import Logout from "@/app/(authLogic)/Logout";
-import { logout } from "@/app/actions/authActions";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { FaUserCircle, FaKey, FaHome } from "react-icons/fa";
