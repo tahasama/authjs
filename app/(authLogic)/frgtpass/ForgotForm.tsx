@@ -10,6 +10,7 @@ import { useState } from "react";
 
 const ForgotForm = () => {
   const [loading, setLoading] = useState<boolean>(false);
+  const [successMessage, setSuccessMessage] = useState<string>("");
 
   const {
     handleSubmit,
@@ -24,18 +25,23 @@ const ForgotForm = () => {
     setLoading(!loading);
     const { email } = data;
     if (email) {
-      console.log("🚀 ~ onSubmit ~ email:", email);
       const response = await forgotPassword({
         email,
       });
 
       if (response?.message) {
+        setLoading(false);
+        console.log("🚀 ~ onSubmit ~ response?.message:", response?.message);
         setError("email", {
           message: response.message,
         });
       } else {
-        setLoading(!loading);
-        redirect("/login");
+        setLoading(false);
+
+        setSuccessMessage("An email was sent to you, please check your inbox");
+        setTimeout(() => {
+          redirect("/login");
+        }, 1000);
       }
     } else {
       setError("email", {
@@ -47,6 +53,9 @@ const ForgotForm = () => {
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-3">
       {/* Email Field */}
+      {successMessage && (
+        <p className="text-teal-600 text-sm">{successMessage}</p>
+      )}
       <div className="flex flex-col">
         <label
           htmlFor="email"
@@ -73,13 +82,13 @@ const ForgotForm = () => {
         disabled={loading}
       >
         {!loading ? (
-          "Change Password"
+          "Send link to email"
         ) : (
           <div className="flex justify-center items-center gap-1">
             <span className="animate-spin">
               <AiOutlineLoading3Quarters />
             </span>
-            <p>Changing...</p>
+            <p>Sending...</p>
           </div>
         )}
       </button>

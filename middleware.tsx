@@ -21,7 +21,7 @@ export async function middleware(req: NextRequest) {
   // 2. If user is NOT logged in and tries to access protected routes like /dashboard, redirect to /login
   if (
     !authsession?.value &&
-    ["/dashboard", "/chngPsswrd"].includes(req.nextUrl.pathname)
+    ["/dashboard", "/chngpsswrd"].includes(req.nextUrl.pathname)
   ) {
     return NextResponse.redirect(new URL("/login", req.url)); // Redirect to login
   }

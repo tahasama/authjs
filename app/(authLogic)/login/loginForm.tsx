@@ -26,7 +26,6 @@ const LoginForm = () => {
 
   const onSubmit = async (data: z.infer<typeof loginSchema>) => {
     setLoading(!loading);
-    const currentPath = window.location.pathname;
     const { email, password } = data;
     const response = await loginWithCredentials({
       email,
@@ -51,7 +50,10 @@ const LoginForm = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-5">
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      className="flex flex-col gap-5 min-w-[15rem]"
+    >
       <label htmlFor="email" className="text-gray-700 dark:text-gray-300">
         Email
       </label>
@@ -85,7 +87,7 @@ const LoginForm = () => {
 
       <button
         type="submit"
-        className="bg-indigo-600 text-center rounded-md p-2 mt-3 hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-400 dark:bg-indigo-500 dark:hover:bg-indigo-400 dark:focus:ring-indigo-300 disabled:bg-gray-400"
+        className="bg-indigo-600 text-center rounded-md p-2 mt-3 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-400 dark:bg-indigo-600 dark:hover:bg-indigo-700 dark:focus:ring-indigo-300 disabled:bg-gray-400"
         disabled={loading}
       >
         {!loading ? (

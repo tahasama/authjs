@@ -70,18 +70,31 @@ export const addUser = async ({
   return { success: true };
 };
 
-export const loginWithProvider = async (formdata: FormData) => {
+export const loginWithProvider = async (
+  previousState: any,
+  formdata: FormData
+) => {
   const provider = formdata.get("provider") as LoginProviders;
+  const email = formdata.get("email") as string;
+
   if (provider !== "resend") {
     await signIn(provider);
+    return {
+      success: true,
+      message: "",
+    };
   } else {
-    await signIn(provider, formdata);
+    await signIn(provider, { email, redirect: false });
+    return {
+      success: true,
+      message: "Email sent successfully, please check your inbox",
+    };
   }
 };
 
-export const loginWithGoogle = async () => {
-  await signIn("google");
-};
+// export const loginWithGoogle = async () => {
+//   await signIn("google");
+// };
 
 export const logout = async () => {
   await signOut({ redirectTo: "/login" });
@@ -159,17 +172,18 @@ export const forgotPassword = async ({ email }: { email: string }) => {
     );
   } catch (error) {
     console.log("🚀 ~ forgotPassword ~ error:", error);
-    return { message: "could not send email, please try again" };
+    return {
+      message: "Could not send email, check your inbox then please try again",
+    };
   }
 
   const resetLink = `${process.env.FRONTEND_URL}/addnewpass?email=${email}&token=${token}`;
   try {
     await sendEmail(email, "Password Reset Request", resetLink);
   } catch (error) {
-    console.log("🚀 ~ forgotPassword ~ error:", error);
     return { message: "could not send email, please try again" };
   }
-  return { success: email };
+  return { success: true };
 };
 
 export const updateForgotPassword = async ({
@@ -230,7 +244,7 @@ export const updateForgotPassword = async ({
     }
   }
 
-  return { user: null, message: "success!" };
+  return { user: null, success: true };
   // redirect("/login");
 };
 

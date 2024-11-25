@@ -15,6 +15,8 @@ const AddNewPsswrd = () => {
   const token = param.get("token");
   const email = param.get("email");
   const [loading, setLoading] = useState<boolean>(false);
+  const [successMessage, setSuccessMessage] = useState<string>("");
+
   const {
     handleSubmit,
     register,
@@ -41,10 +43,13 @@ const AddNewPsswrd = () => {
         message: message,
       });
       setLoading(!loading);
+      setSuccessMessage("Password chaneged successfully!");
       typeof window !== "undefined" &&
-        router.push(
-          `/login?redirect=${encodeURIComponent(window.location.pathname)}`
-        );
+        setTimeout(() => {
+          router.push(
+            `/login?redirect=${encodeURIComponent(window.location.pathname)}`
+          );
+        }, 1200);
     } else {
       setError("password", {
         message: "Network error please try again",
@@ -67,6 +72,9 @@ const AddNewPsswrd = () => {
         </div>
       ) : (
         <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-3">
+          {successMessage && (
+            <p className="text-teal-600 text-sm">{successMessage}</p>
+          )}
           <label htmlFor="password">Password</label>
           <input
             type="password"

@@ -40,7 +40,10 @@ const RegisterForm = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-3">
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      className="flex flex-col gap-3 min-w-[15rem]"
+    >
       <label htmlFor="email" className="text-white">
         Email
       </label>

@@ -14,7 +14,7 @@ const Login = async () => {
           <LoginForm />
           <Link
             href="/frgtpass"
-            className="text-gray-600 hover:text-gray-500 dark:text-gray-400 dark:hover:text-gray-300 mt-6"
+            className="text-gray-600 hover:text-gray-500 dark:text-gray-400 dark:hover:text-gray-300 mt-1"
           >
             Forgot Password
           </Link>
@@ -31,7 +31,7 @@ const Login = async () => {
         <div className="flex flex-col items-center gap-6 p-6  max-w-[300px] ring-1 dark:ring-gray-700/40  rounded-lg">
           {/* <div className="max-w-md p-6 ring-1 dark:ring-gray-700/40 rounded-lg"> */}
 
-          <div className="flex flex-wrap justify-between gap-6 w-full">
+          <div className="flex flex-wrap justify-between gap-6 min-w-[16rem]">
             {providers.map((provider, index) => (
               <div key={index} className="w-full sm:w-auto">
                 <SignIn provider={provider} />
@@ -40,7 +40,7 @@ const Login = async () => {
           </div>
           <Link
             href="/register"
-            className="text-gray-600 hover:text-gray-500 dark:text-gray-400 dark:hover:text-gray-300 mt-5"
+            className="text-gray-600 hover:text-gray-500 dark:text-gray-400 dark:hover:text-gray-300 mt-2"
           >
             Register with email/password
           </Link>

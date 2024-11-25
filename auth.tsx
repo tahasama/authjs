@@ -34,7 +34,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       async authorize(credentials: any) {
         const { email, password } = await loginSchema.parseAsync(credentials);
         const result = await getUserFromDb(email, password);
-        console.log("🚀 ~ authorize ~ result:", result.user);
         if (!result.user) {
           // Throw an error with a cause
           throw new Error("Login failed", {

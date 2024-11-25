@@ -8,9 +8,9 @@ const Register = () => {
 
   return (
     <div className="grid items-center justify-center h-[calc(100vh-100px)] bg-gray-100 dark:bg-gray-900">
-      <main className="flex flex-col-reverse sm:flex-row gap-8 p-8 sm:p-10 rounded-xl bg-white dark:bg-gray-800  shadow-lg">
+      <main className="flex flex-col-reverse sm:flex-row gap-8 p-8 sm:py-8 sm:px-10 rounded-xl bg-white dark:bg-gray-800  shadow-lg">
         {/* Left side: Login form section */}
-        <div className="flex flex-col items-center gap-6 w-full max-w-md p-6 ring-1 dark:ring-gray-700/40 rounded-lg">
+        <div className="max-w-md py-8 px-6 ring-1 dark:ring-gray-700/40 rounded-lg">
           <RegisterForm />
         </div>
 
@@ -22,10 +22,10 @@ const Register = () => {
         </div>
 
         {/* Right side: Provider login section */}
-        <div className="flex flex-col items-center gap-6 p-6  max-w-[300px] ring-1 dark:ring-gray-700/40 rounded-lg">
+        <div className="flex flex-col items-center gap-6 p-6  max-w-[300px] ring-1 dark:ring-gray-700/40  rounded-lg">
           {/* <div className="max-w-md p-6 ring-1 dark:ring-gray-700/40 rounded-lg"> */}
 
-          <div className="flex flex-wrap justify-between gap-6 w-full">
+          <div className="flex flex-wrap justify-between gap-6 min-w-[16rem]">
             {providers.map((provider, index) => (
               <div key={index} className="w-full sm:w-auto">
                 <SignIn provider={provider} />
@@ -34,7 +34,7 @@ const Register = () => {
           </div>
           <Link
             href="/login"
-            className="text-gray-600 hover:text-gray-500 dark:text-gray-400 dark:hover:text-gray-300"
+            className="text-gray-600 hover:text-gray-500 dark:text-gray-400 dark:hover:text-gray-300 mt-2"
           >
             Login with email/password
           </Link>
