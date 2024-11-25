@@ -63,7 +63,9 @@ export default function SignIn({ provider }: LoginProvider) {
 
       <button
         type="submit"
-        className={`py-2.5 px-4 capitalize ${provider !== "resend" && "mt-9"} ${
+        className={`py-2.5 px-4 capitalize ${
+          provider !== "resend" && "sm:mt-8"
+        } ${
           providerStyle[provider]?.bg || "bg-indigo-600"
         } min-w-20 flex justify-center items-center gap-3 mb-0.5 text-white rounded-md  focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all duration-150`}
         disabled={pending}
