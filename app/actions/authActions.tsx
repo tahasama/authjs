@@ -12,7 +12,6 @@ import {
 import { hashResult, saltAndHashPassword, sendEmail } from "@/lib/utils";
 import { AuthError, LoginProviders } from "@/lib/types";
 import crypto from "crypto";
-import { redirect } from "next/navigation";
 
 export const addUser = async ({
   email,
@@ -71,7 +70,7 @@ export const addUser = async ({
 };
 
 export const loginWithProvider = async (
-  previousState: any,
+  previousState: { success: boolean; message: string },
   formdata: FormData
 ) => {
   const provider = formdata.get("provider") as LoginProviders;
@@ -181,6 +180,7 @@ export const forgotPassword = async ({ email }: { email: string }) => {
   try {
     await sendEmail(email, "Password Reset Request", resetLink);
   } catch (error) {
+    console.error(error);
     return { message: "could not send email, please try again" };
   }
   return { success: true };

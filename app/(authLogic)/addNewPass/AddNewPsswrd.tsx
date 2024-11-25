@@ -44,12 +44,13 @@ const AddNewPsswrd = () => {
       });
       setLoading(!loading);
       setSuccessMessage("Password chaneged successfully!");
-      typeof window !== "undefined" &&
+      if (typeof window !== "undefined") {
         setTimeout(() => {
           router.push(
             `/login?redirect=${encodeURIComponent(window.location.pathname)}`
           );
         }, 1200);
+      }
     } else {
       setError("password", {
         message: "Network error please try again",

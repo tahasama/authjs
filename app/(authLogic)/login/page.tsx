@@ -2,6 +2,8 @@ import LoginForm from "./loginForm";
 import Link from "next/link";
 import { LoginProviders } from "@/lib/types";
 import SignIn from "@/app/(authLogic)/login/sign-in";
+import { Suspense } from "react";
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
 
 const Login = async () => {
   const providers: LoginProviders[] = ["resend", "github", "google"];
@@ -11,7 +13,18 @@ const Login = async () => {
       <main className="flex flex-col-reverse sm:flex-row gap-8 p-8 sm:p-10 rounded-xl bg-white dark:bg-gray-800  shadow-lg">
         {/* Left side: Login form section */}
         <div className="flex flex-col items-center gap-6 w-full max-w-md p-6 ring-1 dark:ring-gray-700/40 rounded-lg">
-          <LoginForm />
+          <Suspense
+            fallback={
+              <div className="flex justify-center items-center gap-1">
+                <span className="animate-spin">
+                  <AiOutlineLoading3Quarters />
+                </span>
+                <p>Loading...</p>
+              </div>
+            }
+          >
+            <LoginForm />
+          </Suspense>
           <Link
             href="/frgtpass"
             className="text-gray-600 hover:text-gray-500 dark:text-gray-400 dark:hover:text-gray-300 mt-1"
