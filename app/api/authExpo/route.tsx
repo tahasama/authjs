@@ -2,9 +2,9 @@
 import { auth, signIn } from "@/auth";
 import { query } from "@/lib/db";
 import { NextRequest, NextResponse } from "next/server";
-import jwt from "jsonwebtoken";
+// import jwt from "jsonwebtoken";
 
-const JWT_SECRET = "supersecretcode";
+// const JWT_SECRET = "supersecretcode";
 export async function GET() {
   try {
     // Call the `getUsers` function to fetch all users from the database
