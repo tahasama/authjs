@@ -63,20 +63,14 @@ export async function POST(req: NextRequest) {
     //   JWT_SECRET,
     //   { expiresIn: session.expires } // Adjust expiration time as needed
     // );
-
+    const data = session.user;
     const token = jwt.sign(
       { email: session.user?.email, id: session.user?.id },
       JWT_SECRET,
       { expiresIn: session.expires } // Adjust expiration time as needed
     );
 
-    return NextResponse.json({
-      email: session.user?.email,
-      name: session.user?.name,
-      image: session.user?.image,
-      expires: session.expires, // Token expiration time
-      token, // Send token with the response
-    });
+    return NextResponse.json(data);
   } catch (error) {
     console.error("🚀 ~ POST ~ error:", error);
     return NextResponse.json(
