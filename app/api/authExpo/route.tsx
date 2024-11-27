@@ -2,9 +2,9 @@
 import { auth, signIn } from "@/auth";
 import { query } from "@/lib/db";
 import { NextRequest, NextResponse } from "next/server";
-// import jwt from "jsonwebtoken";
+import jwt from "jsonwebtoken";
 
-// const JWT_SECRET = "supersecretcode";
+const JWT_SECRET = "supersecretcode";
 export async function GET() {
   try {
     // Call the `getUsers` function to fetch all users from the database
@@ -64,13 +64,13 @@ export async function POST(req: NextRequest) {
     //   { expiresIn: session.expires } // Adjust expiration time as needed
     // );
     const data = session.user;
-    // const token = jwt.sign(
-    //   { email: session.user?.email, id: session.user?.id },
-    //   JWT_SECRET,
-    //   { expiresIn: session.expires } // Adjust expiration time as needed
-    // );
+    const token = jwt.sign(
+      { email: session.user?.email, id: session.user?.id },
+      JWT_SECRET,
+      { expiresIn: session.expires } // Adjust expiration time as needed
+    );
 
-    return NextResponse.json(data);
+    return NextResponse.json({ user: data, token });
   } catch (error) {
     console.error("🚀 ~ POST ~ error:", error);
     return NextResponse.json(
