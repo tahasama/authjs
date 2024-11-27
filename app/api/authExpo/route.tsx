@@ -2,7 +2,9 @@
 import { auth, signIn } from "@/auth";
 import { query } from "@/lib/db";
 import { NextRequest, NextResponse } from "next/server";
+import jwt from "jsonwebtoken";
 
+const JWT_SECRET = "supersecretcode";
 export async function GET() {
   try {
     // Call the `getUsers` function to fetch all users from the database
@@ -45,18 +47,38 @@ export async function POST(req: NextRequest) {
     });
 
     // Get authenticated user
-    const user = await auth(); // Or whatever method you use to get the user
+    const session = await auth(); // Or whatever method you use to get the user
 
-    console.log("🚀 ~ POST ~ user:", user);
+    console.log("🚀 ~ POST ~ session:", session);
 
-    if (!user) {
+    if (!session) {
       return NextResponse.json(
         { error: "Authentication failed" },
         { status: 500 }
       );
     }
 
-    return NextResponse.json({ user });
+    // const token = jwt.sign(
+    //   { email: session.user?.email, id: session.user?.id },
+    //   JWT_SECRET,
+    //   { expiresIn: session.expires } // Adjust expiration time as needed
+    // );
+
+    const token = jwt.sign(
+      { email: session.user?.email, id: session.user?.id },
+      JWT_SECRET,
+      { expiresIn: session.expires } // Adjust expiration time as needed
+    );
+
+    return NextResponse.json({
+      user: {
+        email: session.user?.email,
+        name: session.user?.name,
+        image: session.user?.image,
+        expires: new Date(Date.now() + 60 * 60 * 1000), // Token expiration time
+      },
+      token, // Send token with the response
+    });
   } catch (error) {
     console.error("🚀 ~ POST ~ error:", error);
     return NextResponse.json(
