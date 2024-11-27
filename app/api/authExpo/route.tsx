@@ -49,7 +49,7 @@ export async function POST(req: NextRequest) {
     // Get authenticated user
     const session = await auth(); // Or whatever method you use to get the user
 
-    console.log("🚀 ~ POST ~ session:", session);
+    console.log("🚀 ~ POST ~ session:", session?.user);
 
     if (!session) {
       return NextResponse.json(
@@ -66,10 +66,12 @@ export async function POST(req: NextRequest) {
     const token = jwt.sign(
       { email: session.user?.email, id: session.user?.id },
       JWT_SECRET,
-      { expiresIn: session.expires } // Adjust expiration time as needed
+      { expiresIn: "1h" } // Adjust expiration time as needed
     );
+    console.log("🚀 ~ POST ~ token:", token);
     const data = { user: session.user, token: token };
 
+    console.log("🚀 ~ POST ~ data:", data);
     return NextResponse.json({ data });
   } catch (error) {
     console.error("🚀 ~ POST ~ error:", error);
