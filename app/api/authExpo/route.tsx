@@ -71,12 +71,10 @@ export async function POST(req: NextRequest) {
     );
 
     return NextResponse.json({
-      user: {
-        email: session.user?.email,
-        name: session.user?.name,
-        image: session.user?.image,
-        expires: new Date(Date.now() + 60 * 60 * 1000), // Token expiration time
-      },
+      email: session.user?.email,
+      name: session.user?.name,
+      image: session.user?.image,
+      expires: session.expires, // Token expiration time
       token, // Send token with the response
     });
   } catch (error) {
