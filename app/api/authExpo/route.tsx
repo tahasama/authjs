@@ -1,6 +1,7 @@
 // app/api/authExpo/route.tsx
+import { auth, signIn } from "@/auth";
 import { query } from "@/lib/db";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
 export async function GET() {
   try {
@@ -29,4 +30,15 @@ export async function GET() {
       { status: 500 }
     );
   }
+}
+
+export async function POST(req: NextRequest) {
+  const { email, password } = await req.json();
+  await signIn("credentials", {
+    email,
+    password,
+    redirect: false,
+  });
+  const user = auth();
+  return NextResponse.json(user);
 }
