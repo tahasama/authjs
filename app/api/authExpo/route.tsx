@@ -72,7 +72,7 @@ export async function POST(req: NextRequest) {
     const data = { user: session.user, token: token };
 
     console.log("🚀 ~ POST ~ data:", data);
-    return NextResponse.json({ data });
+    return NextResponse.json(data);
   } catch (error) {
     console.error("🚀 ~ POST ~ error:", error);
     return NextResponse.json(
