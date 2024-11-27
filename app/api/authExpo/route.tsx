@@ -33,12 +33,35 @@ export async function GET() {
 }
 
 export async function POST(req: NextRequest) {
-  const { email, password } = await req.json();
-  await signIn("credentials", {
-    email,
-    password,
-    redirect: false,
-  });
-  const user = auth();
-  return NextResponse.json(user);
+  try {
+    const { email, password } = await req.json();
+    console.log("🚀 ~ POST ~ email, password:", email, password);
+
+    // Attempt to sign in using credentials
+    await signIn("credentials", {
+      email,
+      password,
+      redirect: false,
+    });
+
+    // Get authenticated user
+    const user = await auth(); // Or whatever method you use to get the user
+
+    console.log("🚀 ~ POST ~ user:", user);
+
+    if (!user) {
+      return NextResponse.json(
+        { error: "Authentication failed" },
+        { status: 500 }
+      );
+    }
+
+    return NextResponse.json({ user });
+  } catch (error) {
+    console.error("🚀 ~ POST ~ error:", error);
+    return NextResponse.json(
+      { error: "Something went wrong" },
+      { status: 500 }
+    );
+  }
 }
