@@ -75,6 +75,7 @@ const JWT_SECRET = "supersecretcode";
 // };
 
 export async function POST(req: NextRequest) {
+  // console.log("🚀 ~ POST ~ req:", await req.json());
   try {
     const { email, password, provider } = await req.json();
     console.log("🚀 ~ POST ~ provider:", provider);
