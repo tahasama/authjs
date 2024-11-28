@@ -1,6 +1,5 @@
 // app/api/authExpo/route.tsx
 import { auth, signIn } from "@/auth";
-import { query } from "@/lib/db";
 import { NextRequest, NextResponse } from "next/server";
 import jwt from "jsonwebtoken";
 
@@ -36,44 +35,44 @@ const JWT_SECRET = "supersecretcode";
 
 // Example of using token to get data in private route
 
-export async function GET(req: NextRequest) {
-  try {
-    // Step 1: Get the token from the Authorization header
-    const authHeader = req.headers.get("authorization");
+// export async function GET(req: NextRequest) {
+//   try {
+//     // Step 1: Get the token from the Authorization header
+//     const authHeader = req.headers.get("authorization");
 
-    if (!authHeader) {
-      return NextResponse.json({ error: "No token provided" }, { status: 401 });
-    }
+//     if (!authHeader) {
+//       return NextResponse.json({ error: "No token provided" }, { status: 401 });
+//     }
 
-    const token = authHeader.split(" ")[1]; // Extract token from 'Bearer <token>'
-    if (!token) {
-      return NextResponse.json({ error: "Token missing" }, { status: 401 });
-    }
+//     const token = authHeader.split(" ")[1]; // Extract token from 'Bearer <token>'
+//     if (!token) {
+//       return NextResponse.json({ error: "Token missing" }, { status: 401 });
+//     }
 
-    // Step 2: Verify the token and get user info
-    const decoded = jwt.verify(token, JWT_SECRET as string) as string;
+//     // Step 2: Verify the token and get user info
+//     const decoded = jwt.verify(token, JWT_SECRET as string) as string;
 
-    // Simulate fetching user-specific images from the database
-    const userImages = await fetchUserImages(decoded); // Assume this function fetches images from DB
+//     // Simulate fetching user-specific images from the database
+//     const userImages = await fetchUserImages(decoded); // Assume this function fetches images from DB
 
-    return NextResponse.json({ images: userImages });
-  } catch (error) {
-    return NextResponse.json(
-      { error: "Invalid or expired token" },
-      { status: 401 }
-    );
-  }
-}
+//     return NextResponse.json({ images: userImages });
+//   } catch (error) {
+//     return NextResponse.json(
+//       { error: "Invalid or expired token" },
+//       { status: 401 }
+//     );
+//   }
+// }
 
 // Example function to fetch images from a database (just a simulation)
-const fetchUserImages = async (email: string) => {
-  // Here, you would query your database (PostgreSQL, MongoDB, etc.)
-  // For example, you can filter images by email or userId.
-  return [
-    { url: "image1.jpg", description: "Beach Vacation" },
-    { url: "image2.jpg", description: "Family Gathering" },
-  ]; // Example data
-};
+// const fetchUserImages = async (email: string) => {
+//   // Here, you would query your database (PostgreSQL, MongoDB, etc.)
+//   // For example, you can filter images by email or userId.
+//   return [
+//     { url: "image1.jpg", description: "Beach Vacation" },
+//     { url: "image2.jpg", description: "Family Gathering" },
+//   ]; // Example data
+// };
 
 export async function POST(req: NextRequest) {
   try {
