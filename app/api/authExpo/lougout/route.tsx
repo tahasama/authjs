@@ -1,8 +1,8 @@
 // import { logout } from "@/app/actions/authActions";
 import { signOut } from "@/auth";
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 
-export async function POST(req: NextRequest) {
+export async function POST() {
   try {
     // This endpoint handles logout requests.
     // No need to verify the token here; just provide a response indicating logout success.
